@@ -1,0 +1,2 @@
+# Snippets
+snippets for atom
