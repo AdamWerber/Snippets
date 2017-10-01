@@ -1,0 +1,229 @@
+'.source.c, .source.cpp, .source.objc, .source.objcpp':
+  '#include <>~':
+    'prefix': 'Inc'
+    'body': '#include <${1:}.h>\t/* ${2:functions_used} */'
+  '#include ""~':
+    'prefix': 'inc'
+    'body': '#include "${1:}.h"\t/* my_header */'
+  '#define':
+    'prefix': 'deff'
+    'body': '#define ${1:} (${2:value})'
+  '#pragma mark':
+    'prefix': 'mark'
+    'body': '#if 0\n${1:#pragma mark -\n}#pragma mark $2\n#endif\n\n$0'
+  'main()':
+    'prefix': 'int main'
+    'body': """
+            int main(int argc, char const *argv[])
+            {\n\t${1:/* code */}\n\treturn 0;\n}
+            """
+  'For Loop':
+    'prefix': 'for'
+    'body': """
+            for ( ${1:i} = 0 ; ${1:i} < ${2:count} ; ++${1:i} )
+            {\n\t${4:/* code */}\n}
+            """
+  'Header Include-Guard':
+    'prefix': 'ifn'
+    'body': """
+            #ifndef __${1:SYMBOL}_H__
+            #define __$1_H__
+            \n${2}\n
+            #endif /* end of __$1_H__ */\n
+            """
+  'Shared Pointer':
+    'prefix': 'sp'
+    'body': 'typedef std::shared_ptr<${2:${1:my_type}_t}> ${3:${4:my_type}_ptr};'
+  'Typedef':
+    'prefix': 'td'
+    'body': 'typedef ${1:int} ${2:MyCustomType};'
+
+  'Do While Loop':
+    'prefix': 'do'
+    'body': 'do\n{\n\t${0:/* code */}\n} while(${1:/* condition */});'
+  'While Loop':
+    'prefix': 'while'
+    'body': """"
+            while ( ${1:/* condition */} )
+            {\n\t${2:/* code */}\n}
+            """
+  'If Condition':
+    'prefix': 'if'
+    'body': 'if ( ${1:/* condition */} )\n{\n\t${2:/* go fudge yourself */}\n}'
+
+  'Else Condition':
+    'prefix': 'els'
+    'body': 'else ( ${1:/* condition */} )\n{\n\t${2:/* have a gr8 day */}\n}'
+
+  'If Else':
+    'prefix': 'ife'
+    'body': """
+            if ( ${1:/* condition */} )
+            {\n\t${2:/* code */}\n}
+            else\n{\n\t${3:/* code */}\n}
+            """
+  'If ElseIf':
+    'prefix': 'iff'
+    'body': """
+            if (${1:/* condition */})
+            {\n\t${2:/* code */}\n}
+            else if (${3:/* condition */})
+            {\n\t${4:/* code */}\n}
+            """
+  'If ElseIf Else':
+    'prefix': 'iffe'
+    'body': """
+            if (${1:/* condition */})
+            {\n\t${2:/* code */}\n}
+            else if (${3:/* condition */})
+            {\n\t${4:/* code */}\n}
+            else\n{\n\t${5:/* code */}\n}
+            """
+  'Switch Statement':
+    'prefix': 'switch'
+    'body': """switch ( ${1:/* expression */})
+            {\n\tcase ${2:/* value */: ${3:/* do */};\n\tbreak;
+             \tdefault ${4:/* value */}:\n}}
+             """
+  'case':
+    'prefix': 'cs'
+    'body': 'case ${1:/* value */}:$0'
+  'printf':
+    'prefix': 'printf'
+    'body': 'printf("${1:%s}\\\\n", $2);$3'
+  'scanf':
+    'prefix': 'scanf'
+    'body': 'scanf(\"${1:%s}\\\\n\", $2);$3'
+  'Struct':
+    'prefix': 'st'
+    'body': 'struct ${1:name_t} {\n\t${2:/* data */}\n};'
+  'void':
+    'prefix': 'void'
+    'body': 'void ${1:name}(${2:/* arguments */})\n{\n\t${3:/* code */}\n}'
+  'any function':
+    'prefix': 'func'
+    'body': """${1:int} ${2:name}(${3:/* arguments */})
+            {\n\t${5:/* code */}\n\treturn ${4:0};\n}"""
+  'write file':
+    'prefix': 'wf'
+    'body': """
+            FILE *${1:fp};\n${1:fp} = fopen ("${2:filename.txt}","w");
+            if (${1:fp}!=NULL)\n{\n\tfprintf(${1:fp},"${3:Some String\\\\n}");
+            \tfclose (${1:fp});\n}"""
+  'read file':
+    'prefix': 'rf'
+    'body': """FILE *${1:fp};
+            ${1:fp} = fopen ("${2:filename.txt}","r");
+            if (${1:fp}!=NULL)
+            {\n\tfscanf(${1:fp},"${3:Some String\\\\n}", ${3:&var});
+            \tfclose (${1:fp});\n}
+            """
+  'Free':
+      'prefix': 'free'
+      'body': """
+              free(${1:/*variable*/});
+              ${1} = NULL;
+              """
+  'Malloc':
+      'prefix': 'malloc'
+      'body': """
+              (${1:/*casting*/}) malloc ( sizeof(${2:/*element*/}) );
+              if (${3:/*variable*/} == NULL)
+              {
+                  /* in case memory allocation failed */
+                  return NULL;
+              }
+              """
+
+  'Return':
+      'prefix': 'return'
+      'body': 'return ${1:/*value*/};'
+  'Exit':
+      'prefix': 'exi'
+      'body': 'exit ${1:/*value*/};'
+
+  'Enum':
+      'prefix': 'enum'
+      'body': """
+              enum ${1:name}
+              {
+                  ${2:/* elements */}
+              };
+              """
+  'Func Big Header':
+    'prefix': 'header_big'
+    'body': """
+/****************************************************************************
+** description:  ${1:description}
+** arguments:    ${2:arguments}
+** return value: ${3:return value}
+** notes:  ${4:notes}
+*****************************************************************************/
+"""
+  'Func Small Header':
+    'prefix': 'header_small'
+    'body': """
+/****************************************************************************
+\t${1:description}
+*****************************************************************************/
+"""
+  'Seperation Line':
+    'prefix': 'header_line'
+    'body': """
+/****************************************************************************/
+"""
+  'Author Header':
+    'prefix': 'header_Author'
+    'body': """
+/****************************************************************************
+** Filename:    - ${1:filename}
+** Code Author: - ${2:name}
+** Mail:        - ${3:mail}
+** Purpose:     - ${4:purpose}
+** Date:        - ${5:date}
+** Version:     - ${6:version}
+*****************************************************************************/
+"""
+'.source.cpp, .source.objcpp':
+  'Class':
+    'prefix': 'cl'
+    'body': 'class ${1:name_t} {\nprivate:\n\t${0:/* data */}\n\npublic:\n\t${1:name_t} (${2:arguments});\n\tvirtual ~${1:name_t} ();\n};'
+  'Namespace':
+    'prefix': 'ns'
+    'body': 'namespace ${1:name} {\n\t$2\n} /* $1 */'
+  'cout':
+    'prefix': 'cout'
+    'body': 'std::cout << \"${1:/* message */}\" << \'\\\\n\';'
+  'cin':
+    'prefix': 'cin'
+    'body': 'std::cin >> ${1:/* variable */};'
+  'cerr':
+    'prefix': 'cerr'
+    'body': 'std::cerr << \"${1:/* error message */}\" << \'\\\\n\';'
+  'std::map':
+    'prefix': 'map'
+    'body': 'std::map<${1:key}, ${2:value}> map$3;'
+  'std::string':
+    'prefix': 'str'
+    'body': 'std::string'
+  'std::vector':
+    'prefix': 'vector'
+    'body': 'std::vector<${1:int}> v$2;'
+  'template <typename>':
+    'prefix': 'tp'
+    'body': 'template <typename ${1:T}>'
+  'output file':
+    'prefix': 'outf'
+    'body': """
+            std::ofstream ${1:afile}("${2:filename.txt}", std::ios::out);
+            if (${1:afile}.is_open()) {\n\t${1:afile} << "${3:This is a line.}\\\\n";
+            \t${1:afile}.close();\n}
+            """
+  'input file':
+    'prefix': 'inf'
+    'body': """
+            std::ifstream ${1:afile}("${2:filename.txt}", std::ios::in);
+            if (${1:afile}.is_open()) {\n\tstd::string line;
+            \twhile (std::getline(${1:afile}, line)) {\n\t\tstd::cout << line << \'\\\\n\';
+            \t}\n\t${1:afile}.close();\n}\nelse {\n\tstd::cerr << "Unable to open file\\\\n";\n}
+            """
