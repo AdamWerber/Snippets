@@ -176,12 +176,21 @@
     'prefix': 'header_Author'
     'body': """
 /****************************************************************************
+<<<<<<< HEAD
 ** Filename:    - ${1:/*filename*/}
 ** Code Author: - ${2:/*name*/}
 ** Mail:        - ${3:/*mail*/}
 ** Purpose:     - ${4:/*purpose*/}
 ** Date:        - ${5:/*date*/}
 ** Version:     - ${6:/*version*/}
+=======
+** Filename:    - ${1:filename}
+** Code Author: - ${2:name}
+** Mail:        - ${3:mail}
+** Purpose:     - ${4:purpose}
+** Date:        - ${5:date}
+** Version:     - ${6:version}
+>>>>>>> 09d60109a5e44312df7eeca47ea69519f59bc120
 *****************************************************************************/
 """
 '.source.cpp, .source.objcpp':
